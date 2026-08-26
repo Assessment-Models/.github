@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Registry proposal (new model / asset)
+    url: https://github.com/Assessment-Models/assessment-registry/issues
+    about: New maturity models, assessment models and tools are proposed via the registry.
+  - name: Metamodel change requests
+    url: https://github.com/technehub-labs/dea-metamodel/tree/main/change-requests
+    about: Changes to concepts, schemas, contracts or canonical vocabularies belong upstream in technehub-labs/dea-metamodel.
