@@ -2,7 +2,7 @@
 
 **The independent ecosystem for maturity models, assessment models, assessment tools, and reusable assessment components. This can be used in tandem with OpenDEA to drive enterprise maturity and specific capability improvements.**
 
-Assessment-Models governs, publishes, integrates and validates independently managed assessment assets. Each model lives in its own repository, with its own releases, issues, roadmap and contributors — integrated through versioned contracts, a central registry, and automated ecosystem CI.
+Assessment-Models governs, publishes, integrates and validates independently managed assessment assets. Each model lives in its own repository, with its own releases, issues, roadmap and contributors — integrated through versioned contracts, a central registry, automated ecosystem CI, and a shared repository standard.
 
 ## Relationship to OpenDEA
 
@@ -31,6 +31,8 @@ The **[assessment-registry](https://github.com/Assessment-Models/assessment-regi
 | `maturity-components` | Reusable, versioned component packages (dimensions, criteria, level expectations, evidence requirements) | — |
 | `assessment-registry` | Ecosystem integration spine (metadata + references only) | — |
 | `assessment-ci` | Cross-repository validation and ecosystem integration logic | — |
+| `maturity-model-standard` | Normative repository standard, schemas, reusable conformance workflow, portfolio conformance registry | — |
+| `maturity-model-template` | GitHub template repository implementing the repository standard | — |
 
 ## How models conform
 
@@ -40,10 +42,12 @@ Every asset declares a machine-readable **contract handshake** — the OpenDEA c
 2. **Contract conformance CI** — validation against the declared dea-metamodel contract release
 3. **Ecosystem CI** — cross-repository references, mappings, dependencies, compatibility (via assessment-registry + assessment-ci)
 
+Every maturity-model repository additionally declares adoption of the **[AM-MODEL-REPOSITORY-STANDARD](https://github.com/Assessment-Models/maturity-model-standard)** in a root `standard.yaml` (repository type, standard version, conformance level: registered → structural → full), validated by a reusable conformance workflow that also enforces version coherence across `standard.yaml`, `model.yaml`, `VERSION` and the README. New maturity-model repositories are created from [`maturity-model-template`](https://github.com/Assessment-Models/maturity-model-template).
+
 ## How to contribute
 
 See [CONTRIBUTING.md](../CONTRIBUTING.md) and [GOVERNANCE.md](../GOVERNANCE.md). Models are proposed via the registry; each accepted model gets its own repository and independent lifecycle. Component reuse is explicit (import / extend / override) and never imports scoring or scale semantics silently.
 
 ---
 
-*Established under [CR-AM-11 — Federated Assessment Model Ecosystem](https://github.com/technehub-labs/dea-metamodel/blob/main/change-requests/CR-AM-11.md) (umbrella: CR-AM-01, OpenDEA Assessment Metamodel Evolution).*
+*Established under [CR-AM-11 — Federated Assessment Model Ecosystem](https://github.com/technehub-labs/dea-metamodel/blob/main/change-requests/CR-AM-11.md) (umbrella: CR-AM-01, OpenDEA Assessment Metamodel Evolution). Extended by [CR-AM-ORG-RES-000 — Organization-Wide Maturity Model Repository Standardization, Architecture and Global Conformance](https://github.com/Assessment-Models/maturity-model-standard/blob/main/change-requests/CR-AM-ORG-RES-000.md).*
