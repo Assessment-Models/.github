@@ -1,8 +1,8 @@
-# Assessment-Models
+# Enterprise & Organization Assessment Models
 
 **The independent ecosystem for maturity models, assessment models, assessment tools, and reusable assessment components. This can be used in tandem with OpenDEA to drive enterprise maturity and specific capability improvements.**
 
-Assessment-Models governs, publishes, integrates and validates independently managed assessment assets. Each model lives in its own repository, with its own releases, issues, roadmap and contributors — integrated through versioned contracts, a central registry, automated ecosystem CI, and a shared repository standard.
+Assessment Models governs, publishes, integrates and validates independently managed assessment assets. Each model lives in its own repository, with its own releases, issues, roadmap and contributors — integrated through versioned contracts, a central registry, automated ecosystem CI, and a shared repository standard.
 
 ## Relationship to OpenDEA
 
