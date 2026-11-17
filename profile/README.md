@@ -149,7 +149,7 @@ Every maturity model should be maintained as an independently versioned and gove
 
 The repository should provide the complete model definition and the resources required to operationalize it, while consuming organization-level standards and reusable infrastructure through explicit, versioned contracts.
 
-The repository architecture is governed by the [`maturity-model-standard`](https://github.com/Assessment Models/maturity-model-standard) repository and instantiated using [`maturity-model-template`](https://github.com/Assessment Models/maturity-model-template).
+The repository architecture is governed by the [`maturity-model-standard`](https://github.com/Assessment-Models/maturity-model-standard) repository and instantiated using [`maturity-model-template`](https://github.com/Assessment-Models/maturity-model-template).
 
 ### 3.1 Reference repository structure
 
@@ -915,11 +915,11 @@ The following principles are normative architectural safeguards:
 
 The ecosystem requires a common mechanism to discover, register, validate and integrate maturity models.
 
-The [`assessment-registry`](https://github.com/Assessment Models/assessment-registry) provides the foundation for asset discovery, immutable references, dependencies and compatibility.
+The [`assessment-registry`](https://github.com/Assessment-Models/assessment-registry) provides the foundation for asset discovery, immutable references, dependencies and compatibility.
 
-The [`assessment-ci`](https://github.com/Assessment Models/assessment-ci) provides the foundation for reusable validation and ecosystem integration workflows.
+The [`assessment-ci`](https://github.com/Assessment-Models/assessment-ci) provides the foundation for reusable validation and ecosystem integration workflows.
 
-The [`maturity-model-standard`](https://github.com/Assessment Models/maturity-model-standard) governs repository requirements, schemas, templates, validators and conformance.
+The [`maturity-model-standard`](https://github.com/Assessment-Models/maturity-model-standard) governs repository requirements, schemas, templates, validators and conformance.
 
 ### 9.1 Model onboarding lifecycle
 
@@ -1014,35 +1014,35 @@ The organization governs common interfaces and integration rules. Individual mod
 
 Independently versioned models defining domain-specific maturity constructs.
 
-- [`maturity-model-digital-transformation`](https://github.com/Assessment Models/maturity-model-digital-transformation)
-- [`maturity-model-digital-transformation-operationalized`](https://github.com/Assessment Models/maturity-model-digital-transformation-operationalized)
-- [`maturity-model-modernization`](https://github.com/Assessment Models/maturity-model-modernization)
-- [`maturity-model-technology`](https://github.com/Assessment Models/maturity-model-technology)
-- [`maturity-model-operations`](https://github.com/Assessment Models/maturity-model-operations)
-- [`maturity-model-services-delivery`](https://github.com/Assessment Models/maturity-model-services-delivery)
-- [`maturity-model-autonomous-operations`](https://github.com/Assessment Models/maturity-model-autonomous-operations)
+- [`maturity-model-digital-transformation`](https://github.com/Assessment-Models/maturity-model-digital-transformation)
+- [`maturity-model-digital-transformation-operationalized`](https://github.com/Assessment-Models/maturity-model-digital-transformation-operationalized)
+- [`maturity-model-modernization`](https://github.com/Assessment-Models/maturity-model-modernization)
+- [`maturity-model-technology`](https://github.com/Assessment-Models/maturity-model-technology)
+- [`maturity-model-operations`](https://github.com/Assessment-Models/maturity-model-operations)
+- [`maturity-model-services-delivery`](https://github.com/Assessment-Models/maturity-model-services-delivery)
+- [`maturity-model-autonomous-operations`](https://github.com/Assessment-Models/maturity-model-autonomous-operations)
 
 ### Standards and scaffolding
 
-- [`maturity-model-standard`](https://github.com/Assessment Models/maturity-model-standard) — normative repository standard, schemas, conformance workflow and portfolio conformance registry.
-- [`maturity-model-template`](https://github.com/Assessment Models/maturity-model-template) — reusable template for new maturity-model repositories.
+- [`maturity-model-standard`](https://github.com/Assessment-Models/maturity-model-standard) — normative repository standard, schemas, conformance workflow and portfolio conformance registry.
+- [`maturity-model-template`](https://github.com/Assessment-Models/maturity-model-template) — reusable template for new maturity-model repositories.
 
 ### Integration and validation
 
-- [`assessment-registry`](https://github.com/Assessment Models/assessment-registry) — asset registration, immutable references, dependencies and compatibility.
-- [`assessment-ci`](https://github.com/Assessment Models/assessment-ci) — cross-repository validation and ecosystem integration.
-- [`maturity-components`](https://github.com/Assessment Models/maturity-components) — reusable, versioned maturity components.
+- [`assessment-registry`](https://github.com/Assessment-Models/assessment-registry) — asset registration, immutable references, dependencies and compatibility.
+- [`assessment-ci`](https://github.com/Assessment-Models/assessment-ci) — cross-repository validation and ecosystem integration.
+- [`maturity-components`](https://github.com/Assessment-Models/maturity-components) — reusable, versioned maturity components.
 
 ### Catalogs and assessment tools
 
-- [`dea-catalog-maturity-models`](https://github.com/Assessment Models/dea-catalog-maturity-models) — Enterprise Architecture maturity model catalog.
-- [`dea-catalog-assessment-tools`](https://github.com/Assessment Models/dea-catalog-assessment-tools) — assessment tools catalog.
-- [`dea-assessment-modernization`](https://github.com/Assessment Models/dea-assessment-modernization)
-- [`dea-assessment-technology`](https://github.com/Assessment Models/dea-assessment-technology)
-- [`dea-assessment-operations`](https://github.com/Assessment Models/dea-assessment-operations)
-- [`dea-assessment-services-delivery`](https://github.com/Assessment Models/dea-assessment-services-delivery)
+- [`dea-catalog-maturity-models`](https://github.com/Assessment-Models/dea-catalog-maturity-models) — Enterprise Architecture maturity model catalog.
+- [`dea-catalog-assessment-tools`](https://github.com/Assessment-Models/dea-catalog-assessment-tools) — assessment tools catalog.
+- [`dea-assessment-modernization`](https://github.com/Assessment-Models/dea-assessment-modernization)
+- [`dea-assessment-technology`](https://github.com/Assessment-Models/dea-assessment-technology)
+- [`dea-assessment-operations`](https://github.com/Assessment-Models/dea-assessment-operations)
+- [`dea-assessment-services-delivery`](https://github.com/Assessment-Models/dea-assessment-services-delivery)
 
-See the [assessment registry](https://github.com/Assessment Models/assessment-registry) for the authoritative asset inventory and version references.
+See the [assessment registry](https://github.com/Assessment-Models/assessment-registry) for the authoritative asset inventory and version references.
 
 ## 12. Model lifecycle and contribution
 
