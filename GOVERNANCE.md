@@ -56,11 +56,30 @@ Every `maturity-model-*` repository adopts the **AM-MODEL-REPOSITORY-STANDARD**
 ## Naming conventions
 
 - Lowercase, hyphenated repository names; `<domain>` is a short singular domain slug (e.g. `digital-transformation`, `autonomous-operations`, `agentic-enterprise`).
-- Every model repository carries a root `model.yaml` manifest declaring: identity, version, contract dependency, components, dependencies, compatibility (CR-AM-11 §22).
+- Every model repository carries a root `model.yaml` manifest declaring: identity, version, contract dependency, components, dependencies, compatibility (CR-AM-11 §22), and any optional typed artifact declarations supported by the manifest contract.
 - Every applicable maturity-model repository carries a root `standard.yaml` repository-standard declaration (CR-AM-ORG-RES-000).
 - Versions are SemVer; releases are git tags `vX.Y.Z`. Registry references must be immutable (tag / commit SHA / content digest — never `main`, `master`, `latest`; CR-AM-11 §12).
 
-### Legacy-naming exception (CR-AM-11 Phase 0 pre-federation repositories)
+## Typed touchpoint declarations (CR-AM-20)
+
+Models that maintain governed relationships or integration touchpoints with other assessment assets may declare the location of their touchpoint artifact in the root `model.yaml` manifest:
+
+```yaml
+touchpoints:
+  declaration: touchpoints.yaml
+```
+
+The declaration is optional. It identifies a repository-relative YAML artifact; it does not make touchpoints mandatory for every model and does not replace the model's primary conformance handshake, component declarations or dependency references.
+
+The declaration and the artifact have deliberately separate validation responsibilities:
+
+- **Manifest contract / Level 2:** validates the typed declaration, requires a non-empty repository-relative path, rejects absolute paths and parent-directory traversal, and verifies that the target exists within the model repository.
+- **Touchpoint artifact contract:** governs the structure and meaning of the records in the referenced artifact, including relationship identity, directionality, mappings, overlap ownership and reciprocity where applicable.
+- **Ecosystem or integration validation:** applies the relevant semantic, compatibility and cross-model checks defined by the applicable touchpoint and integration contracts. A successful Level 2 path check alone is not evidence that all relationship semantics are valid.
+
+The field remains optional for backward compatibility. Models without a touchpoint artifact do not need to add an empty declaration. Models that do declare one must preserve the artifact as a governed, versioned model resource. The declaration does not change the version or authority of the separate touchpoint-record contract.
+
+## Legacy-naming exception (CR-AM-11 Phase 0 pre-federation repositories)
 
 Repositories that predate the federation (est. CR-AM-11, 2026-08) and carry the `dea-` prefix are **recognized under their existing names**:
 
@@ -82,7 +101,7 @@ Rules for these repositories:
 
 ## Lifecycle conventions
 
-Each model repository is independently versioned, released, tested, documented and governed. No model requires a shared repository release. Conformance is declared via the machine-readable contract handshake (CR-AM-11 §15) and validated by the three-level CI model (§14). Repository-standard adoption is declared via the root `standard.yaml` (CR-AM-ORG-RES-000) and validated by the reusable conformance workflow from `maturity-model-standard`.
+Each model repository is independently versioned, released, tested, documented and governed. Conformance is declared via the machine-readable contract handshake (CR-AM-11 §15) and validated by the three-level CI model (§14). Repository-standard adoption is declared via the root `standard.yaml` (CR-AM-ORG-RES-000) and validated by the reusable conformance workflow from `maturity-model-standard`.
 
 ## Legacy repository classification (CR-AM-11 §26, Phase 0 initial table)
 
@@ -104,8 +123,8 @@ No repository is destructively rewritten as a first step; the architecture suppo
 ## Baseline CI policies
 
 - Every model repository runs **Level 1 local CI** on every PR: syntax, schema validation, reference integrity, internal consistency, version consistency, examples, tests.
-- **Level 2 contract conformance CI** validates the declared contract version against the pinned dea-metamodel release.
-- **Level 3 ecosystem CI** (assessment-registry + assessment-ci) validates cross-repository references, mappings, dependencies, compatibility and duplicate identifiers.
+- **Level 2 contract conformance CI** validates the declared contract version against the pinned dea-metamodel release and validates any declared optional manifest artifact paths, including `touchpoints.declaration`, for safe repository-relative resolution and file existence.
+- **Level 3 ecosystem CI** (assessment-registry + assessment-ci) validates cross-repository references, mappings, dependencies, compatibility and duplicate identifiers, together with any touchpoint semantics or relationship checks explicitly required by the applicable integration contracts.
 - **Repository-standard conformance CI** (reusable from `maturity-model-standard`, CR-AM-ORG-RES-000) validates the `standard.yaml` declaration, required structure by declared conformance level, and version coherence across `standard.yaml`, `model.yaml`, `VERSION` and the README status line.
 - All CI levels remain independently identifiable; the repository-standard gate is additive and replaces none of Levels 1–3.
 - All three levels are demonstrated by the same first model (CR-AM-11 §31).
