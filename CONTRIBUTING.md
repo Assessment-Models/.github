@@ -9,6 +9,7 @@ Thank you for your interest in the OpenDEA-compatible assessment ecosystem.
 3. **References are immutable.** Cite releases, tags, commit SHAs or content digests — never `main` or `latest`.
 4. **Reuse is explicit.** Components are referenced with a declared kind (`import` / `extend` / `override`). Reuse never silently imports scoring or scale semantics (CR-AM-11 §19–20).
 5. **No git submodules** for ecosystem integration (CR-AM-11 §23). Integration is registry references + versioned releases + CI.
+6. **Touchpoint declarations are typed and optional.** If a model publishes a governed touchpoint artifact, declare its repository-relative path through `touchpoints.declaration` in `model.yaml`. Do not make the field mandatory for models without touchpoints, and do not replace the artifact with free-form manifest metadata.
 
 ## Proposing a new model
 
@@ -22,8 +23,8 @@ Naming, taxonomy, lifecycle and the legacy classification table live in [GOVERNA
 
 ## The canonical contributor path (P4-3)
 
-This is the end-to-end path every asset follows, demonstrated live by the
-ecosystem's first wave (the four domain instruments, federated 2026-10-27).
+This is the end-to-end path every asset follows, demonstrated live by
+the ecosystem's first wave (the four domain instruments, federated 2026-10-27).
 All three CI levels are green on every merged asset today.
 
 ### 1. Propose (registry issue)
@@ -37,14 +38,18 @@ new asset *class* or schema capability, land a CR first (see
 
 ```
 <repo>/
-├── model.yaml          ← the contract handshake (identity, version, contract, dependencies)
-├── VERSION             ← SemVer, kept equal to model.yaml + instrument versions
-├── <content>/          ← the model itself (instrument.yaml, scale, evaluation, …)
-├── scripts/            ← Level 1 validation (structure + schema + consistency)
+├── model.yaml           ← identity, contract handshake, dependencies, optional declarations
+├── standard.yaml        ← repository-standard adoption (where applicable)
+├── VERSION              ← SemVer, kept equal to model.yaml + instrument versions
+├── <content>/           ← the model itself (instrument.yaml, scale, evaluation, …)
+├── touchpoints.yaml     ← optional; governed relationships with other assets
+├── scripts/             ← Level 1 validation (structure + schema + consistency)
 └── .github/workflows/
-    ├── <local-ci>.yml          ← Level 1
+    ├── <local-ci>.yml           ← Level 1
     └── contract-conformance.yml ← Level 2 (reusable workflow, pinned)
 ```
+
+The `touchpoints.yaml` line is illustrative and conditional: include it only when the model maintains a governed touchpoint artifact. The path may be another repository-relative YAML location; the manifest declaration must match the actual file path.
 
 The `model.yaml` handshake shape (see
 [`maturity-model-digital-transformation`](https://github.com/Assessment-Models/maturity-model-digital-transformation/blob/main/model.yaml)
@@ -65,9 +70,26 @@ conformance:
 dependencies:                          # other registered asset ids — immutable refs
   - id: <registered-asset-id>
     reference: vX.Y.Z
+touchpoints:                            # optional; omit when no touchpoint artifact exists
+  declaration: touchpoints.yaml       # repository-relative YAML path
 ```
 
-### 3. Release and register
+A touchpoint declaration has a narrow purpose: it tells the manifest consumer where the model's touchpoint artifact is located. The manifest contract and Level 2 validator check that the value is a non-empty repository-relative path, reject absolute paths and parent-directory traversal, and confirm that the target file exists within the repository.
+
+This check does **not** validate the meaning or full semantic integrity of the touchpoint records. The referenced artifact remains governed by its own touchpoint contract. Relationship identity, directionality, peer mappings, criterion mappings, overlap ownership and reciprocity are validated against that contract and by applicable ecosystem/integration checks. Do not interpret a successful Level 2 path check as full touchpoint conformance.
+
+### 3. Understand the repository declarations and registries
+
+Keep these resources distinct; they have different authorities and purposes:
+
+| Resource | Authority and purpose |
+|---|---|
+| `model.yaml` | Authoritative asset identity, contract handshake, components, dependencies, compatibility and optional typed artifact declarations such as `touchpoints.declaration`. |
+| `standard.yaml` | Declares adoption of the repository standard and the repository's conformance level. It does not duplicate the model handshake or touchpoint declaration. |
+| `assessment-registry` | Authoritative asset identity/registration spine, including registered asset records and immutable release references. |
+| `maturity-model-standard/registry/conformance.yaml` | Portfolio view of repository-standard classification, declared standard version and conformance state. It is not a replacement for the asset registry. |
+
+### 4. Release and register
 
 1. Tag the release (`vX.Y.Z`) — tags are the preferred registry reference
    (commit SHAs work before the first tag).
@@ -78,13 +100,13 @@ dependencies:                          # other registered asset ids — immutabl
 3. Registry CI validates: schema, immutable refs, unique ids, resolvable
    dependencies, type↔class coherence, supersession coherence.
 
-### 4. The three CI levels (what runs, where)
+### 5. The three CI levels (what runs, where)
 
 | Level | Where | What it proves | Current green example |
 |---|---|---|---|
 | **1 — Local model CI** | the model repo, every PR | structure, schema, reference integrity, version consistency | `dea-assessment-*` `validate` job |
-| **2 — Contract conformance** | the model repo, reusable workflow from `assessment-ci` | the handshake resolves against the published contract suite at the pinned metamodel release | `contract-conformance` job |
-| **3 — Ecosystem CI** | `assessment-ci`, every PR | registry↔manifest coherence (id/type/version/contract at the pinned release), dependency resolution, immutable refs, catalog-view drift | `validate-ecosystem` + `catalog-view-check` jobs |
+| **2 — Contract conformance** | the model repo, reusable workflow from `assessment-ci` | the handshake resolves against the published contract suite at the pinned metamodel release; declared optional artifact paths such as touchpoints resolve safely and exist | `contract-conformance` job |
+| **3 — Ecosystem CI** | `assessment-ci`, every PR | registry↔manifest coherence (id/type/version/contract at the pinned release), dependency resolution, immutable refs, catalog-view drift and applicable cross-model integration checks | `validate-ecosystem` + `catalog-view-check` jobs |
 
 Level 2 wiring (copy into `.github/workflows/contract-conformance.yml`):
 
@@ -97,7 +119,9 @@ jobs:
       manifest-path: model.yaml
 ```
 
-### 5. Verify and discover
+The reusable workflow reference above is illustrative of the existing wiring convention; production workflow dependencies must follow the repository's pinning policy and use an immutable reference.
+
+### 6. Verify and discover
 
 - Resolve any asset: `assessment-registry/scripts/resolve.py <asset-id>`
   (prints source, version, pinned reference, contract, and supersession chain).
@@ -127,3 +151,6 @@ jobs:
   component references, workflow pins.
 - **Don't register model content** in the registry — metadata and immutable
   references only (CR-AM-11 §11).
+- **Don't treat touchpoint declaration as touchpoint conformance.** A valid
+  manifest path proves the artifact can be located; the artifact contract and
+  applicable integration checks govern the relationship semantics.
